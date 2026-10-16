@@ -2,7 +2,7 @@
 
 **Curso / Disciplina:** MBA em Business Intelligence and Analytics (BI) — Augmented Analytics & AI-Driven Insights (AA)  
 **Ambiente:** Google Colab ([colab.research.google.com](https://colab.research.google.com/))  
-**Linguagem / Stack:** Python 3.10+ / Google Generative AI SDK / Pandas / Gemini Flash 3.8 (`gemini-3.8-flash`)  
+**Linguagem / Stack:** Python 3.10+ / Google GenAI SDK (`google-genai`) / Pandas / Gemini Flash 3.8 (`gemini-3.8-flash`)  
 **Duração Estimada:** 25 a 30 minutos  
 
 ---
@@ -13,9 +13,9 @@ O objetivo deste laboratório é automatizar a análise financeira em escala de 
 
 Ao final deste laboratório, você será capaz de:
 1. Obter e configurar credenciais seguras de API no **Google AI Studio**.
-2. Integrar a biblioteca oficial `google-generativeai` em um notebook Jupyter no **Google Colab**.
+2. Integrar a nova biblioteca oficial `google-genai` em um notebook Jupyter no **Google Colab**.
 3. Estruturar representações tabulares eficientes (Markdown serialization) para consumo otimizado por LLMs.
-4. Programar chamadas de inferência utilizando o modelo **Gemini Flash 3.8** (`gemini-3.8-flash`) com parametrização controlada de tokens e temperatura.
+4. Programar chamadas de inferência utilizando o modelo **Gemini Flash 3.8** (`gemini-3.8-flash`) com parametrização controlada de tokens (`max_output_tokens=10000`) e temperatura.
 5. Interpretar relações não triviais de eficiência de capital (investimento em P&D vs. Lucro Líquido vs. Gastos Administrativos) em 50 startups de tecnologia.
 
 ---
@@ -52,15 +52,15 @@ Ao final deste laboratório, você será capaz de:
 Na Célula 1 do notebook, insira sua API Key obtida no Passo 1:
 ```python
 API_KEY = 'SUA_CHAVE_AQUI'
-genai.configure(api_key=API_KEY)
+client = genai.Client(api_key=API_KEY)
 ```
-Execute a célula para instalar a dependência `google-generativeai` e autenticar a sessão.
+Execute a célula para instalar as dependências (`google-genai`, `tabulate`) e autenticar a sessão do cliente GenAI.
 
 ### Passo 5: Execução da Chamada de Inferência (Gemini Flash 3.8)
 Prossiga executando as células seguintes:
 1. **Carga e Visualização:** O Pandas carrega o dataset e exibe as 5 primeiras linhas.
 2. **Serialização em Markdown:** O método `df.head(15).to_markdown()` formata a tabela preservando a semântica de colunas para o modelo.
-3. **Invocação do Agente:** O modelo `gemini-3.8-flash` recebe o prompt executivo de Venture Capital e avalia a eficiência de cada startup.
+3. **Invocação do Agente:** O modelo `gemini-3.8-flash` recebe o prompt executivo de Venture Capital via `client.models.generate_content` com `max_output_tokens=10000`, garantindo a geração integral do relatório sem cortes.
 4. **Relatório Gerado:** Observe a saída formatada contendo a melhor alocação para investimento Série A.
 
 ---
