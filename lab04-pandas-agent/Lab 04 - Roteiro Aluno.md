@@ -2,7 +2,7 @@
 
 **Curso / Disciplina:** MBA em Business Intelligence and Analytics (BI) — Augmented Analytics & AI-Driven Insights (AA)  
 **Ambiente:** Google Colab ([colab.research.google.com](https://colab.research.google.com/))  
-**Linguagem / Stack:** Python 3.10+ / Google Generative AI SDK / Pandas / Seaborn / Gemini Flash 3.8 (`gemini-3.8-flash`)  
+**Linguagem / Stack:** Python 3.10+ / Google GenAI SDK (`google-genai`) / Pandas / Seaborn / Gemini Flash 3.8 (`gemini-3.8-flash`)  
 **Duração Estimada:** 25 a 30 minutos  
 
 ---
@@ -41,15 +41,18 @@ Ao final deste laboratório, você será capaz de:
 ### Passo 2: Carga do Dataset `adult.csv`
 1. No menu lateral esquerdo do Colab, clique no ícone de pasta (**Arquivos**).
 2. Faça o upload do arquivo [`Lab 04 - adult.csv`](./Lab%2004%20-%20adult.csv) para o diretório raiz da sessão (`/content/`).
-3. Execute a célula de instalação de pacotes (`google-generativeai`).
+3. Execute a célula de instalação de pacotes (`google-genai tabulate`).
 
 ### Passo 3: Configuração da Credencial
 Na célula de configuração, insira sua chave de API do Google AI Studio:
 ```python
+from google import genai
+from google.genai import types
+
 API_KEY = 'SUA_CHAVE_AQUI'
-genai.configure(api_key=API_KEY)
+client = genai.Client(api_key=API_KEY)
 ```
-Execute a célula para autenticar a conexão com a API do Gemini.
+Execute a célula para autenticar a conexão com a API do Gemini via novo SDK oficial.
 
 ### Passo 4: Saneamento Automatizado da Base (Data Prep)
 O dataset original possui espaços em branco residuais em colunas categóricas (ex: `' Female'` em vez de `'Female'`). Execute a função de saneamento:
