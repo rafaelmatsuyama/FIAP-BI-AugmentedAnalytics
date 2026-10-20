@@ -1,0 +1,202 @@
+app:
+  description: Fluxo visual multi-agente para monitoramento e contraofensiva competitiva.
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Sinalizador_Concorrencia_MBA
+  use_icon_as_answer: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions: []
+      allowed_file_types: []
+      allowed_file_upload_methods: []
+      enabled: false
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: start-source-Agente_Pesquisador-target
+      source: start
+      sourceHandle: source
+      target: Agente_Pesquisador
+      targetHandle: target
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: llm
+      id: Agente_Pesquisador-source-Agente_Estrategia-target
+      source: Agente_Pesquisador
+      sourceHandle: source
+      target: Agente_Estrategia
+      targetHandle: target
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: Agente_Estrategia-source-end-target
+      source: Agente_Estrategia
+      sourceHandle: source
+      target: end
+      targetHandle: target
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables:
+        - label: Nome do Concorrente ou Notícia
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: nome_concorrente
+      id: start
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: Agente Pesquisador de Mercado
+        model:
+          completion_params:
+            thinking_level: Low
+          mode: chat
+          name: gemini-3.8-flash
+          provider: google
+        prompt_template:
+        - role: system
+          text: |
+            Você é um Especialista Sênior em Inteligência de Mercado e Estratégia Competitiva.
+            Sua missão é realizar uma autópsia detalhada do modelo de negócio do concorrente informado, destacando diferenciais, fontes de receita e públicos-alvo.
+        - role: user
+          text: |
+            Analise profundamente o modelo de negócio da seguinte empresa/notícia: {{#start.nome_concorrente#}}
+
+            Estruture sua resposta com:
+            1. Proposta de Valor Central
+            2. Mecanismo de Monetização
+            3. Principais Pontos Fortes e Ameaças
+        selected: false
+        title: Agente_Pesquisador
+        type: llm
+        vision:
+          enabled: false
+      id: Agente_Pesquisador
+      position:
+        x: 380
+        y: 282
+      positionAbsolute:
+        x: 380
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: Agente CSO / Estratégia
+        model:
+          completion_params:
+            thinking_level: High
+          mode: chat
+          name: gemini-3.8-flash
+          provider: google
+        prompt_template:
+        - role: system
+          text: |
+            Você é o Chief Strategy Officer (CSO) da nossa organização.
+            Você é crítico, pragmático e orientado a mitigação de riscos e defesa de margem.
+            Recebendo o diagnóstico de mercado, você deve formular um plano de contraofensiva executiva para a Diretoria.
+        - role: user
+          text: |
+            Com base no dossiê de mercado gerado pelo nosso time de pesquisa abaixo:
+
+            ---
+            {{#Agente_Pesquisador.text#}}
+            ---
+
+            Gere um MEMORANDO ESTRATÉGICO DE DEFESA para o Board contendo:
+            1. Os 3 Maiores Riscos Imediatos para a nossa carteira de clientes
+            2. Plano de Contraofensiva em 30 Dias (Ações Práticas)
+            3. Alavanca de Diferenciação que devemos enfatizar
+
+            Exiba o relatório em Markdown corporativo, com tabelas e bullets objetivos.
+        selected: false
+        title: Agente_Estrategia
+        type: llm
+        vision:
+          enabled: false
+      id: Agente_Estrategia
+      position:
+        x: 680
+        y: 282
+      positionAbsolute:
+        x: 680
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - Agente_Estrategia
+          - text
+          variable: report
+        selected: false
+        title: End
+        type: end
+      id: end
+      position:
+        x: 980
+        y: 282
+      positionAbsolute:
+        x: 980
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
