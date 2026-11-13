@@ -3,10 +3,11 @@
 
 [![FIAP MBA](https://img.shields.io/badge/FIAP-MBA%20BI%20%26%20Strategic%20Insights-ED145B?logo=fiap&logoColor=white)](https://www.fiap.com.br/mba/mba-em-business-intelligence-e-strategic-insights/)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
-![Google Gemini](https://img.shields.io/badge/LLM-Gemini%20Flash-orange?logo=google)
+![Google Gemini](https://img.shields.io/badge/LLM-Gemini%203.8%20Flash-orange?logo=google)
 ![Multi-Agent Orchestration](https://img.shields.io/badge/Orchestration-CrewAI%20%7C%20Dify-blueviolet)
 ![Reactive UI](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?logo=streamlit)
-![License](https://img.shields.io/badge/License-Dual--License%20(Apache%202.0%20%7C%20CC%20BY--NC--SA%204.0)-lightgrey.svg)
+![Code License](https://img.shields.io/badge/Code-Apache%202.0-green.svg)
+![Content License](https://img.shields.io/badge/Content-CC%20BY--NC--SA%204.0-orange.svg)
 
 ![Enterprise Augmented Analytics & Cognitive Decision Intelligence Reference Architecture](assets/architecture.jpg)
 
@@ -67,11 +68,11 @@ Each module is self-contained within its respective directory, featuring structu
 | **03** | [`lab03-ma-synergy/`](./lab03-ma-synergy/) | **Cross-Context M&A Due Diligence:** Harmonizing disparate customer survey telemetry with financial startup ledger data to identify acquisition targets. | Google AI Studio • Dual-Context Grounding • Top-P/Temp Calibration | M&A Investment Committee Acquisition Memorandum | [Inspect Guide](./lab03-ma-synergy/Lab%2003%20-%20Roteiro%20Aluno.md) |
 | **04** | [`lab04-pandas-agent/`](./lab04-pandas-agent/) | **Autonomous Data Exploration:** Replacing rigid ad-hoc SQL inquiries with a self-executing Python code-writing analytics agent. | Python • Google Colab • Pandas Native Agent • Dynamic Code Exec | Interactive Natural-Language Ad-Hoc Analytics Engine | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab04-pandas-agent/Lab%2004%20-%20Colab%20Notebook.ipynb) |
 | **05** | [`lab05-automl-scikit/`](./lab05-automl-scikit/) | **White-Box Churn Predictor:** Automating feature transformation, model selection, and SHAP-based feature importance explainability. | Python • Scikit-Learn • Random Forest • White-Box Profiling | Interpretable Churn Prediction Model & ROC-AUC Report | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab05-automl-scikit/Lab%2005%20-%20Colab%20Notebook.ipynb) |
-| **06** | [`lab06-dify-workflow/`](./lab06-dify-workflow/) | **Low-Code Enterprise Orchestration:** Constructing resilient multi-step analytical pipelines with human-in-the-loop validation checkpoints. | Dify.ai Enterprise • Visual Flow Orchestration • Tool Calling | Production-Grade Visual Analytical Pipeline | [Inspect Guide](./lab06-dify-workflow/) |
+| **06** | [`lab06-dify-workflow/`](./lab06-dify-workflow/) | **Low-Code Enterprise Orchestration:** Constructing resilient multi-step analytical pipelines with human-in-the-loop validation checkpoints. | Dify.ai Enterprise • Visual Flow Orchestration • Tool Calling | Production-Grade Visual Analytical Pipeline | [Inspect Guide](./lab06-dify-workflow/Lab%2006%20-%20Roteiro%20Aluno.md) |
 | **07** | [`lab07-crewai-squad/`](./lab07-crewai-squad/) | **Autonomous Operation Churn Zero:** Multi-agent autonomous squad orchestrating retention campaigns, discount modeling, and outreach drafting. | CrewAI • LiteLLM • Role-Based Multi-Agent Collaboration | Synthesized Retention Protocol & Task Delegation Flow | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab07-crewai-squad/Lab%2007%20-%20Colab%20Notebook.ipynb) |
-| **08** | [`lab08-json-schema/`](./lab08-json-schema/) | **Deterministic Output Contracts:** Forcing LLMs to comply with strict, production-ready JSON schemas for microservice integration. | Google AI Studio • Constrained Decoding • JSON Schema | Validated Pydantic/JSON Microservice Interface Spec | [Inspect Guide](./lab08-json-schema/) |
+| **08** | [`lab08-json-schema/`](./lab08-json-schema/) | **Deterministic Output Contracts:** Forcing LLMs to comply with strict, production-ready JSON schemas for microservice integration. | Google AI Studio • Constrained Decoding • JSON Schema | Validated Pydantic/JSON Microservice Interface Spec | [Inspect Guide](./lab08-json-schema/Lab%2008%20-%20Roteiro%20Aluno.md) |
 | **09** | [`lab09-agentic-dashboard/`](./lab09-agentic-dashboard/) | **Reactive Executive Cockpit:** Building interactive, agent-driven analytical applications that generate insights dynamically on user input. | Streamlit • PyNgrok • Gemini Flash • Plotly Dynamic Charts | Deployable Interactive AI-Powered Executive Dashboard | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab09-agentic-dashboard/Lab%2009%20-%20Dashboard%20de%20Analytics.ipynb) |
-| **10** | [`lab10-integracao-final/`](./lab10-integracao-final/) | **End-to-End Enterprise Solution Capstone:** Unifying ingestion, predictive modeling, multi-agent evaluation, and a reactive executive frontend. | Full Stack: Streamlit • Scikit-Learn • CrewAI • JSON Schema | Enterprise-Grade Decision Intelligence System | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab10-integracao-final/Lab%2010%20-%20Integração%20Final%20e%20Dashboard%20Estruturado.ipynb) |
+| **10** | [`lab10-integracao-final/`](./lab10-integracao-final/) | **End-to-End Enterprise Solution Capstone:** Unifying ingestion, predictive modeling, multi-agent evaluation, and a reactive executive frontend. | Full Stack: Streamlit • Scikit-Learn • CrewAI • JSON Schema | Enterprise-Grade Decision Intelligence System | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab10-integracao-final/Lab%2010%20-%20Integração%20Final%20e%20Dashboard%20Estruturado.ipynb)<br>[Inspect Guide](./lab10-integracao-final/Lab%2010%20-%20Roteiro%20Aluno.md) |
 
 ---
 
@@ -101,7 +102,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\Activate.ps1
 
 # 3. Install core dependencies
 pip install --upgrade pip
-pip install google-genai pandas scikit-learn streamlit plotly crewai
+pip install -r requirements.txt
 
 # 4. Export runtime credentials
 export GEMINI_API_KEY="your-gemini-api-key" # On Windows PowerShell: $env:GEMINI_API_KEY="your-gemini-api-key"
@@ -109,21 +110,69 @@ export GEMINI_API_KEY="your-gemini-api-key" # On Windows PowerShell: $env:GEMINI
 
 ---
 
+## ⚙️ Key Architectural Patterns & Production Hardening
+
+This reference implementation incorporates critical engineering lessons learned across enterprise deployments and executive MBA cohorts:
+
+* **Deterministic Contracts via Regex Extraction (`re.search`):** Rather than fragile string stripping or raw `json.loads` that breaks when LLMs produce conversational preambles or markdown code fences, analytical pipelines use strict regex extraction (`r'\{.*\}'`) with `re.DOTALL`, guaranteeing type-safe ingestion into downstream services.
+* **Controlled Context Sampling & Rate-Limit Shielding:** In high-density enterprise datasets (`PesquisaClientes.csv`, `adult.csv`), transmitting entire transactional tables triggers 429 quota exhaustion and LLM attention dilution. Agents enforce bounded sampling (`df.head(15)`), transmitting high-variance structural snapshots for diagnostic inference while optimizing token consumption.
+* **Reactive UI Session State Hydration (`st.session_state`):** Bridging asynchronous multi-agent deliberation with reactive frontends (`Streamlit`) introduces state loss on UI reruns. Pipelines hydrate `st.session_state` with immutable parsed data, preserving strategic metrics, warning cards, and raw JSON payloads across user clicks and parameter updates.
+* **White-Box AutoML & Transparent Model Explainability:** Replacing opaque black-box AutoML platforms with open-source Python pipelines (`scikit-learn`, `pandas`). Code-generating agents synthesize Random Forest classification pipelines, computing native Feature Importance to deliver explainable boardroom metrics directly linked to business levers (e.g. Churn mitigation).
+* **Anti-Sycophancy System Instructions & Sampling Calibration:** Corporate LLMs exhibit strong conversational agreeableness (sycophancy), validating flawed executive premises. Augmented Analytics workflows enforce adversarial auditor personas calibrated with constrained temperature (0.2) and Top-P controls, ensuring uncompromised analytical rigor in boardroom decisioning.
+
+---
+
 ## 🛡️ Governance, Security & API Best Practices
 
-- **Standard Model Architecture:** All laboratories standardize on **Google Gemini Flash**, optimized for ultra-low latency, native structured output compliance, and high throughput.
-- **Credential Sanitization:** API keys must **never** be hardcoded or committed to version control. Always retrieve keys via environment variables or secret managers.
+- **Standard Model Architecture:** All laboratories standardize on **Google Gemini 3.8 Flash** (`gemini-3.8-flash`), optimized for ultra-low latency, native structured output compliance, and high throughput.
+- **Credential Sanitization:** API keys must **never** be hardcoded or committed to version control. Always retrieve keys via environment variables (`GEMINI_API_KEY`, `GOOGLE_API_KEY`) or secret managers.
 - **Academic Guardrails:** Instructor master solutions and answer keys (`*Gabarito*`, `*Solution*`) are strictly protected via enterprise `.gitignore` policies to ensure pedagogical rigor and independent student learning.
 
 ---
 
-## 📜 Academic Stewardship & Institutional Affiliation
+## 🎓 Academic Validation & Field Hardening
 
-This curriculum and architecture reference suite was designed and maintained for:
+This framework, curriculum, and interactive lab suite were architected, refined, and battle-tested by **Rafael Matsuyama** as part of the **Augmented Analytics & AI-Driven Insights** curriculum for the **Executive MBA in Business Intelligence & Strategic Insights at FIAP** (São Paulo, Brazil).
 
-* **Institution:** [FIAP](https://www.fiap.com.br/)
-* **Program:** [MBA em Business Intelligence e Strategic Insights](https://www.fiap.com.br/mba/mba-em-business-intelligence-e-strategic-insights/)
-* **Discipline:** Augmented Analytics & AI-Driven Insights
-* **Author / Professor:** Prof. Rafael Matsuyama
+Over 150+ senior analytics professionals, data managers, solutions architects, and tech leads across multiple enterprise cohorts (including 7BIR, 92BI, 93BI, and 9BIR) have executed, stress-tested, and validated these autonomous agentic workflows against real-world business decision scenarios.
 
-*Licensed under a dual-licensing model: [Apache License 2.0](LICENSE) for software/code and [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](LICENSE) for educational content and lab courseware.*
+---
+
+## 🏷️ Release Cadence & Versioning Policy
+
+This repository follows a strict **Calendar Versioning with Cycle and Patch semantics (CalVer)** (`vYYYY.CYCLE.PATCH`) to balance enterprise technical stability with annual executive curriculum delivery:
+
+```
+  v2026 . 1 . 0
+    │     │   │
+    │     │   └── PATCH: Hotfixes, dependency bumps & documentation errata
+    │     └────── CYCLE: Major content iterations or new lab modules
+    └──────────── YEAR:  Annual technology stack baseline & MBA curriculum edition
+```
+
+* **Deterministic Reproducibility:** Each tagged release provides an immutable snapshot where all laboratory notebooks, scripts, prompts, and Streamlit dashboards are verified to execute deterministically without runtime drift.
+* **Academic Cohort Pinning:** Students from specific cohort years or enterprise teams standardizing on past editions can pin their environment directly to the official release tag:
+  ```bash
+  git checkout tags/v2026.1.0
+  ```
+* All milestone releases and automated release notes are available on the official [GitHub Releases](https://github.com/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/releases) page.
+
+---
+
+## 👨‍💻 Author & Leadership
+
+**Rafael Matsuyama**  
+*Solutions Architect & AI/Data Engineering Specialist*  
+Engineering graduate from **Escola Politécnica da Universidade de São Paulo (Poli-USP)** with over two decades of experience across Cloud Architecture, Distributed Systems, Mission-Critical Platforms, and Academic Leadership.
+
+* 🌐 **LinkedIn:** [linkedin.com/in/rafaelmatsuyama](https://www.linkedin.com/in/rafaelmatsuyama)
+* 🐙 **GitHub:** [github.com/rafaelmatsuyama](https://github.com/rafaelmatsuyama)
+
+---
+
+## 📜 Dual Licensing Model
+
+This repository employs a **dual-licensing structure** to encourage enterprise adoption of the codebase while protecting educational materials from unauthorized commercial resale:
+
+* 💻 **Code, Scripts & Notebooks (`*.ipynb`, `*.py`, `*.yaml`, `*.json`):** Licensed under the **[Apache 2.0 License](LICENSE)**. Permissive and free to be used, adapted, and integrated into enterprise production environments.
+* 📚 **Educational Content & Manuals (`*.md` lab guides, prompts, diagrams):** Licensed under **[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/)**. Free for personal learning, study, and educational reference; commercial reproduction, selling, or course packaging by third parties is strictly prohibited.

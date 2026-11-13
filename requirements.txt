@@ -1,0 +1,22 @@
+# Enterprise Augmented Analytics & Cognitive Decision Intelligence
+# Core Python Dependencies (FIAP MBA Curriculum Edition)
+
+# Google Generative AI SDK & LLM Runtime
+google-genai>=1.0.0
+
+# Data Science, Tabular Processing & Machine Learning
+pandas>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.4.0
+openpyxl>=3.1.0
+seaborn>=0.13.0
+tabulate>=0.9.0
+
+# Multi-Agent Orchestration & Squads
+crewai>=0.80.0
+
+# Reactive Front-End & Visualization Cockpits
+streamlit>=1.35.0
+plotly>=5.20.0
+pyngrok>=7.0.0
+
