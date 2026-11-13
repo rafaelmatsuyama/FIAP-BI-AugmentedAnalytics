@@ -23,8 +23,8 @@ Ao concluir este laboratório, você será capaz de:
 ## 📋 Pré-requisitos & Materiais
 1. **Google Colab:** Acesso a uma sessão ativa em [colab.new](https://colab.new).
 2. **API Key do Google AI Studio:** Chave gratuita gerada em [aistudio.google.com](https://aistudio.google.com).
-3. **Dataset da Operação:** Arquivo `Lab 05 - EvasaoClientesClassificados.xlsx` (gerado no AutoML da Aula 02/03 ou fornecido na pasta do laboratório).
-4. **Notebook Base:** Arquivo `Lab 07 - Colab Notebook.ipynb`.
+3. **Dataset da Operação:** Arquivo `Lab 05 - EvasaoClientesClassificados.xlsx` (com auto-download resiliente *Self-Healing* integrado no notebook).
+4. **Notebook Base:** Arquivo [`Lab 07 - Colab Notebook.ipynb`](./Lab%2007%20-%20Colab%20Notebook.ipynb).
 
 ---
 
@@ -35,13 +35,13 @@ No seu notebook do Google Colab, execute a instalação do framework CrewAI:
 
 ```python
 # Instalação silenciosa do CrewAI e utilitários
-!pip install -q crewai tabulate
+!pip install -q crewai openpyxl tabulate
 print("✅ Ambiente configurado com sucesso!")
 ```
 * **O que acontece:** O Colab baixa o motor de orquestração do CrewAI e as bibliotecas de integração com provedores de LLM.
 
-### Passo 2: Configuração de Credenciais & Provedor de LLM
-Configure as variáveis de ambiente necessárias para comunicação com a API do Gemini:
+### Passo 2: Configuração de Credenciais, Idioma & Provedor de LLM
+Configure as variáveis de ambiente necessárias para comunicação com a API do Gemini e o idioma de saída:
 
 ```python
 import os
@@ -50,26 +50,32 @@ from crewai import Agent, Task, Crew, Process
 
 # Insira sua chave obtida no Google AI Studio
 API_KEY = "COLE_SUA_API_KEY_AQUI"
+OUTPUT_LANGUAGE = "Portuguese (Brazil)" # @param ["Portuguese (Brazil)", "English"]
 os.environ["GOOGLE_API_KEY"] = API_KEY
 os.environ["GEMINI_API_KEY"] = API_KEY
 
 # Configuração do modelo oficial da disciplina no padrão LiteLLM/CrewAI
 llm_config = "gemini/gemini-3.8-flash"
-print(f"✅ Motor de IA configurado: {llm_config}")
+print(f"✅ Motor de IA configurado: {llm_config} | Output: {OUTPUT_LANGUAGE}")
 ```
 * **Por que fazer isso:** O CrewAI utiliza o LiteLLM para roteamento de modelos. Passar o identificador como string no formato `"gemini/..."` garante compatibilidade total com o validador Pydantic sem conflitos de esquema.
 
-### Passo 3: Ingestão dos Dados de Churn (Amostra VIP)
-Carregue a planilha de clientes classificados com risco de evasão e prepare o extrato das contas mais críticas:
+### Passo 3: Ingestão dos Dados de Churn (Self-Healing Runtime)
+Carregue a planilha de clientes classificados com risco de evasão (o bloco baixa automaticamente a planilha do GitHub caso não esteja em `/content/`) e prepare o extrato das contas mais críticas:
 
 ```python
-try:
-    df = pd.read_excel('Lab 05 - EvasaoClientesClassificados.xlsx')
-    amostra_clientes = df.head(5).to_markdown()
-    print("✅ Inteligência de dados carregada:")
-    print(amostra_clientes)
-except Exception as e:
-    print("❌ Erro ao carregar dataset. Certifique-se de fazer upload do arquivo 'Lab 05 - EvasaoClientesClassificados.xlsx' no menu lateral do Colab.")
+import os
+import urllib.request
+
+DATASET_NAME = 'Lab 05 - EvasaoClientesClassificados.xlsx'
+RAW_URL = 'https://raw.githubusercontent.com/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/main/lab05-automl-scikit/Lab%2005%20-%20EvasaoClientesClassificados.xlsx'
+
+if not os.path.exists(DATASET_NAME):
+    urllib.request.urlretrieve(RAW_URL, DATASET_NAME)
+
+df = pd.read_excel(DATASET_NAME)
+amostra_clientes = df.head(5).to_markdown()
+print("✅ Inteligência de dados carregada!")
 ```
 * **Saída Esperada:** Uma tabela formatada em Markdown contendo as métricas de tempo de contrato, cobertura e score de cancelamento dos 5 clientes da amostra.
 

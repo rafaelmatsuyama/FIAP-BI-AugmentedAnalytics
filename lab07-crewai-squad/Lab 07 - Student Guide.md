@@ -25,7 +25,7 @@ Upon completing this laboratory, you will be able to:
 1. **Google Colab:** Active session at [colab.new](https://colab.new).
 2. **Google AI Studio API Key:** Authentication key generated at [aistudio.google.com](https://aistudio.google.com).
 3. **Operational Dataset:** `Lab 05 - EvasaoClientesClassificados.xlsx` (available with self-healing auto-download in the notebook).
-4. **Starter Notebook:** `Lab 07 - Colab Notebook.ipynb`.
+4. **Starter Notebook:** [`Lab 07 - Colab Notebook.ipynb`](./Lab%2007%20-%20Colab%20Notebook.ipynb).
 
 ---
 
@@ -36,25 +36,26 @@ In your Google Colab notebook, execute the initial setup cell:
 
 ```python
 # Silent installation of CrewAI and formatting utilities
-!pip install -q crewai tabulate openpyxl
+!pip install -q crewai openpyxl tabulate
 print("✅ Multi-agent environment successfully provisioned!")
 ```
 
-### Step 2: Configure Environment Variables & LLM Provider
-Configure API credentials targeting the Google Gemini backend:
+### Step 2: Configure Environment Variables, Output Language & LLM Provider
+Configure API credentials targeting the Google Gemini backend and set `OUTPUT_LANGUAGE = "English"`:
 
 ```python
 import os
 import pandas as pd
 from crewai import Agent, Task, Crew, Process
 
-API_KEY = "PASTE_YOUR_API_KEY_HERE"
+API_KEY = "COLE_SUA_API_KEY_AQUI"
+OUTPUT_LANGUAGE = "English" # @param ["Portuguese (Brazil)", "English"]
 os.environ["GOOGLE_API_KEY"] = API_KEY
 os.environ["GEMINI_API_KEY"] = API_KEY
 
 # Standardized model string in canonical LiteLLM/CrewAI format
 llm_config = "gemini/gemini-3.8-flash"
-print(f"✅ Cognitive Engine Configured: {llm_config}")
+print(f"✅ Cognitive Engine Configured: {llm_config} | Output: {OUTPUT_LANGUAGE}")
 ```
 
 ### Step 3: Churn Telemetry Ingestion (Self-Healing Runtime)

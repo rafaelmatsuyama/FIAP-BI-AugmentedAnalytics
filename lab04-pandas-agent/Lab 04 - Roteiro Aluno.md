@@ -38,31 +38,31 @@ Ao final deste laboratório, você será capaz de:
 3. Informe o repositório institucional: `rafaelmatsuyama/FIAP-BI-AugmentedAnalytics`.
 4. Abra o notebook: `lab04-pandas-agent/Lab 04 - Colab Notebook.ipynb`.
 
-### Passo 2: Carga do Dataset `adult.csv`
-1. No menu lateral esquerdo do Colab, clique no ícone de pasta (**Arquivos**).
-2. Faça o upload do arquivo [`Lab 04 - adult.csv`](./Lab%2004%20-%20adult.csv) para o diretório raiz da sessão (`/content/`).
-3. Execute a célula de instalação de pacotes (`google-genai tabulate`).
+### Passo 2: Carga do Dataset `adult.csv` (Self-Healing Runtime)
+1. Execute a primeira célula de código para instalar os pacotes (`google-genai tabulate`).
+2. O notebook possui **auto-download resiliente (*Self-Healing*)**: ao executar a célula de carga, ele baixa automaticamente [`Lab 04 - adult.csv`](./Lab%2004%20-%20adult.csv) do GitHub caso não esteja na pasta `/content/` (você também pode fazer upload manual pelo painel **Arquivos**).
 
-### Passo 3: Configuração da Credencial
-Na célula de configuração, insira sua chave de API do Google AI Studio:
+### Passo 3: Configuração da Credencial e Idioma
+Na célula de configuração, insira sua chave de API do Google AI Studio e mantenha o idioma de saída:
 ```python
 from google import genai
 from google.genai import types
 
-API_KEY = 'SUA_CHAVE_AQUI'
+API_KEY = 'COLE_SUA_API_KEY_AQUI'
+OUTPUT_LANGUAGE = 'Portuguese (Brazil)' # @param ['Portuguese (Brazil)', 'English']
 client = genai.Client(api_key=API_KEY)
 ```
 Execute a célula para autenticar a conexão com a API do Gemini via novo SDK oficial.
 
 ### Passo 4: Saneamento Automatizado da Base (Data Prep)
-O dataset original possui espaços em branco residuais em colunas categóricas (ex: `' Female'` em vez de `'Female'`). Execute a função de saneamento:
+O dataset original possui espaços em branco residuais em colunas categóricas (ex: `' Female'` em vez de `'Female'`). Execute a função de saneamento (disponível tanto em português `sanitizar_dados()` quanto pelo alias em inglês `sanitize_data()`):
 ```python
 sanitizar_dados()
 ```
 * **O que acontece:** O modelo `gemini-3.8-flash` recebe o schema das colunas, gera o código Python de strip/limpeza e aplica as alterações diretamente no DataFrame `df` global.
 
 ### Passo 5: Consultas Analíticas em Linguagem Natural
-Utilize a função `chat_com_dados()` para provocar o agente com perguntas estratégicas:
+Utilize a função `chat_com_dados()` (ou o alias `chat_with_data()`) para provocar o agente com perguntas estratégicas:
 
 1. **Segmentação de Gênero e Renda:**
    ```python

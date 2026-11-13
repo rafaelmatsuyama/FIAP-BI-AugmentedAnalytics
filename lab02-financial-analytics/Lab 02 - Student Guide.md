@@ -48,10 +48,11 @@ Upon completing this laboratory, you will be able to:
 * The updated notebook includes a **self-healing download routine**: if `Lab 02 - 50_Startups.csv` is not present in `/content/`, it fetches it automatically from the official GitHub branch.
 * Alternatively, upload [`Lab 02 - 50_Startups.csv`](./Lab%2002%20-%2050_Startups.csv) manually via the left sidebar (**Files** panel).
 
-### Step 4: Configure Authentication & Runtime Libraries
-In Cell 1 of the notebook, configure your API credential:
+### Step 4: Configure Authentication, Language & Runtime Libraries
+In Cell 1 of the notebook, configure your API credential and set `OUTPUT_LANGUAGE` to `'English'`:
 ```python
-API_KEY = 'YOUR_API_KEY_HERE'
+API_KEY = 'COLE_SUA_API_KEY_AQUI'
+OUTPUT_LANGUAGE = 'English' # @param ['Portuguese (Brazil)', 'English']
 client = genai.Client(api_key=API_KEY)
 ```
 Execute the cell to install required dependencies (`google-genai`, `tabulate`) and initialize the authenticated GenAI client session.

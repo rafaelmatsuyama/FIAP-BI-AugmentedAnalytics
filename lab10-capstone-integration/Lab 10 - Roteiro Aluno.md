@@ -24,24 +24,27 @@ Ao concluir este laboratório, você será capaz de:
 1. **Google Colab:** Sessão ativa em [colab.new](https://colab.new).
 2. **Conta Gratuita Ngrok:** Authtoken configurado em [ngrok.com](https://ngrok.com).
 3. **API Key do Google AI Studio:** Chave gerada em [aistudio.google.com](https://aistudio.google.com).
-4. **Dataset de Teste:** Arquivo `PesquisaClientes.csv` (ou base tabular similar).
-5. **Notebook do Laboratório:** Arquivo `Lab 10 - Integração Final e Dashboard Estruturado.ipynb`.
+4. **Dataset de Teste:** Arquivo `PesquisaClientes.csv` (com auto-download *Self-Healing* integrado no notebook).
+5. **Notebook do Laboratório:** Arquivo [`Lab 10 - Colab Notebook.ipynb`](./Lab%2010%20-%20Colab%20Notebook.ipynb).
 
 ---
 
 ## 🚀 Passo a Passo Guiado
 
-### Passo 1: Instalação de Dependências no Ambiente Colab
-Abra o notebook no Google Colab e execute a Célula 1 para instalar os componentes de agentes, front-end e tunelamento:
+### Passo 1: Instalação de Dependências e Carga Self-Healing no Colab
+Abra o notebook no Google Colab e execute a Célula 1 para instalar os componentes de agentes, front-end, tunelamento e baixar automaticamente o dataset de demonstração:
 
 ```python
 !pip install crewai streamlit pyngrok pandas -q
-print("✅ Bibliotecas instaladas com sucesso!")
+import urllib.request, os
+if not os.path.exists('PesquisaClientes.csv'):
+    urllib.request.urlretrieve('https://raw.githubusercontent.com/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/main/lab01-cx-analytics/Lab%2001%20-%20PesquisaClientes.csv', 'PesquisaClientes.csv')
+    print('✅ Demo dataset downloaded successfully! / Dataset de demonstração baixado com sucesso!')
 ```
-* **O que acontece:** O ambiente prepara o runtime com `streamlit` para interface, `crewai` para orquestração de agentes e `pyngrok` para exposição pública da porta 8501.
+* **O que acontece:** O ambiente prepara o runtime com `streamlit` para interface, `crewai` para orquestração de agentes, `pyngrok` para exposição pública da porta 8501 e provisiona `PesquisaClientes.csv`.
 
 ### Passo 2: Compilação do Dashboard Integrado (`app.py`)
-Execute a Célula 2 do notebook, que grava a aplicação web completa utilizando a diretiva `%%writefile`:
+Execute a Célula 2 do notebook, que grava a aplicação web completa utilizando a diretiva `%%writefile` (com seletor de idioma e fallback automático para `PesquisaClientes.csv`):
 
 ```python
 %%writefile app.py
@@ -53,37 +56,40 @@ import re
 from crewai import Agent, Task, Crew, Process
 
 # 1. Configuração da Página e Títulos
-st.set_page_config(page_title="BI Pro Dashboard", layout="wide", page_icon="🏢")
+st.set_page_config(page_title="BI Pro Dashboard", layout="wide")
 st.title("🏢 Agentic Analytics: Insight-as-a-Service")
-st.caption("MBA em Business Intelligence & Analytics — FIAP")
 
 with st.sidebar:
-    st.header("⚙️ Painel de Controle")
-    api_key = st.text_input("Gemini API Key:", type="password")
+    st.header("⚙️ Control Panel / Painel de Controle")
+    api_key = st.text_input("🔑 Gemini API Key:", type="password")
+    output_lang = st.selectbox("🌐 Output Language / Idioma:", ["Portuguese (Brazil)", "English"])
     st.divider()
-    st.info("Padrão Homologado: Gemini 3.8 Flash")
+    st.info("MBA BI & Analytics - FIAP")
 
-# 2. Ingestão de Dados e Disparo da Squad
-uploaded_file = st.file_uploader("Suba o dataset para análise estratégica (CSV):", type="csv")
+# 2. Ingestão de Dados (Upload ou Fallback Automático Self-Healing)
+uploaded_file = st.file_uploader("📂 Upload CSV dataset (or leave empty to use default PesquisaClientes.csv):", type="csv")
+data_source = uploaded_file if uploaded_file is not None else ('PesquisaClientes.csv' if os.path.exists('PesquisaClientes.csv') else None)
 
-if uploaded_file and api_key:
-    df = pd.read_csv(uploaded_file)
+if data_source and api_key:
+    df = pd.read_csv(data_source)
+    if uploaded_file is None:
+        st.caption("ℹ️ Using pre-loaded Colab dataset: `PesquisaClientes.csv` / Usando base padrão do Colab.")
     st.dataframe(df.head(10), use_container_width=True)
     
-    if st.button("🚀 Gerar Análise Estruturada"):
+    if st.button("🚀 Generate Structured Analysis / Gerar Análise Estruturada"):
         os.environ["GEMINI_API_KEY"] = api_key
         os.environ["GOOGLE_API_KEY"] = api_key
         
-        with st.spinner("🧠 Squad processando dados via JSON Schema... Aguarde."):
+        with st.spinner("🧠 Squad processing telemetry via JSON Schema... / Processando dados... Aguarde."):
             instrucoes_sistemicas = (
-                "Você é um Consultor Estratégico do MBA em BI & Analytics da FIAP. "
-                "Seu tom é pragmático, focado em ROI e métricas de negócio. "
-                "Sempre baseie suas conclusões nos dados fornecidos."
+                f"You are a Senior Strategy Consultant from FIAP's MBA in BI & Analytics. "
+                f"Your tone is pragmatic, ROI-driven, and strictly grounded in the provided data. "
+                f"Write all string values in {output_lang}."
             )
             
             analyst = Agent(
-                role="Consultor Estratégico FIAP",
-                goal="Gerar insights acionáveis e estruturados",
+                role="FIAP Strategic BI Consultant",
+                goal=f"Synthesize actionable, schema-compliant strategic insights in {output_lang}",
                 backstory=instrucoes_sistemicas,
                 llm="gemini/gemini-3.8-flash"
             )
@@ -92,11 +98,11 @@ if uploaded_file and api_key:
             dataset_contexto = df.head(15).to_csv(index=False)
             
             task = Task(
-                description=f"""Analise a amostra de dados abaixo e gere um insight estratégico estruturado:
+                description=f"""Analyze the telemetry sample below and synthesize a structured strategic insight (values in {output_lang}):
 
 {dataset_contexto}
 
-Retorne OBRIGATORIAMENTE um objeto JSON com o formato:
+Return MANDATORILY a JSON object matching this exact schema:
 {{
   "titulo": "string",
   "metrica_critica": "string",
@@ -104,8 +110,8 @@ Retorne OBRIGATORIAMENTE um objeto JSON com o formato:
   "impacto_estimado": "Baixo" | "Médio" | "Alto"
 }}
 
-Retorne APENAS o JSON puro, sem blocos explicativos ou markdown adicionais.""",
-                expected_output="Um objeto JSON com as chaves: titulo, metrica_critica, recomendacao, impacto_estimado.",
+Return ONLY raw JSON, with no extra markdown or commentary.""",
+                expected_output="A valid JSON object with keys: titulo, metrica_critica, recomendacao, impacto_estimado.",
                 agent=analyst
             )
             
@@ -121,33 +127,33 @@ Retorne APENAS o JSON puro, sem blocos explicativos ou markdown adicionais.""",
                     st.session_state["analise_data"] = json.loads(json_match.group(0))
                     st.session_state["raw_output"] = raw_text
                 else:
-                    raise ValueError("JSON não identificado no retorno do agente.")
+                    raise ValueError("JSON object not found in agent output / JSON não identificado.")
                     
             except Exception as e:
-                st.error(f"❌ Erro ao processar JSON: {e}")
-                st.write("**Retorno Bruto:**", raw_result)
+                st.error(f"❌ Error parsing JSON / Erro ao processar JSON: {e}")
+                st.write("**Raw Output / Retorno Bruto:**", raw_result)
 
     # 4. Exibição Executiva do Dashboard
     if "analise_data" in st.session_state:
         data = st.session_state["analise_data"]
-        st.success("✅ Inteligência Gerada com Sucesso!")
+        st.success("✅ Decision Intelligence Generated! / Inteligência Gerada com Sucesso!")
         st.divider()
         
         col1, col2 = st.columns(2)
         with col1:
-            st.metric(label="Título do Insight", value=data.get("titulo", "N/A"))
-            st.write(f"**Métrica Crítica:** {data.get('metrica_critica', 'N/A')}")
+            st.metric(label="Insight Title / Título do Insight", value=data.get("titulo", "N/A"))
+            st.write(f"**Critical Metric / Métrica Crítica:** {data.get('metrica_critica', 'N/A')}")
         
         with col2:
-            st.metric(label="Impacto Estimado", value=data.get("impacto_estimado", "Médio"))
-            st.warning(f"**Recomendação:** {data.get('recomendacao', 'N/A')}")
+            st.metric(label="Estimated Impact / Impacto Estimado", value=data.get("impacto_estimado", "Médio"))
+            st.warning(f"**Recommendation / Recomendação:** {data.get('recomendacao', 'N/A')}")
         
         st.divider()
-        st.write("### 🛠️ Raw JSON (Para Auditoria IT)")
+        st.write("### 🛠️ Raw JSON Contract (IT Audit / Auditoria IT)")
         st.json(data)
 
 elif not api_key:
-    st.warning("⚠️ Insira sua Gemini API Key no menu lateral para ativar a Squad de Agentes.")
+    st.warning("⚠️ Enter your Gemini API Key in the sidebar to activate the Agent Squad. / Insira sua Gemini API Key no menu lateral.")
 ```
 
 ### Passo 3: Ativação do Túnel Ngrok e Inicialização do Servidor

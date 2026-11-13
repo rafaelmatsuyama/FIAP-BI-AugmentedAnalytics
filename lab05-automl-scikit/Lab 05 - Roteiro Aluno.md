@@ -38,34 +38,34 @@ Ao final deste laboratório, você será capaz de:
 3. Informe o repositório institucional: `rafaelmatsuyama/FIAP-BI-AugmentedAnalytics`.
 4. Abra o notebook: `lab05-automl-scikit/Lab 05 - Colab Notebook.ipynb`.
 
-### Passo 2: Carga do Dataset de Evasão
-1. No menu lateral esquerdo do Colab, clique no ícone de pasta (**Arquivos**).
-2. Faça o upload do arquivo [`Lab 05 - EvasaoClientesClassificados.xlsx`](./Lab%2005%20-%20EvasaoClientesClassificados.xlsx) para o diretório raiz da sessão (`/content/`).
-3. Execute a primeira célula para instalar o novo SDK oficial e utilitários:
+### Passo 2: Instalação de Dependências & Self-Healing Dataset
+1. Execute a primeira célula para instalar o novo SDK oficial e utilitários:
    ```bash
    !pip install -q -U google-genai openpyxl tabulate
    ```
+2. O notebook conta com uma rotina de **auto-download resiliente (*Self-Healing*)**: caso o arquivo [`Lab 05 - EvasaoClientesClassificados.xlsx`](./Lab%2005%20-%20EvasaoClientesClassificados.xlsx) não esteja em `/content/`, ele é baixado automaticamente da branch oficial do GitHub (ou você pode enviá-lo manualmente no ícone **Arquivos**).
 
-### Passo 3: Configuração da Credencial
-Na célula de configuração, insira sua chave de API do Google AI Studio:
+### Passo 3: Configuração da Credencial e Idioma
+Na célula de configuração, insira sua chave de API do Google AI Studio e mantenha o idioma de saída:
 ```python
 from google import genai
 from google.genai import types
 
-API_KEY = 'SUA_CHAVE_AQUI'
+API_KEY = 'COLE_SUA_API_KEY_AQUI'
+OUTPUT_LANGUAGE = 'Portuguese (Brazil)' # @param ['Portuguese (Brazil)', 'English']
 client = genai.Client(api_key=API_KEY)
 ```
 Execute a célula para autenticar a conexão com a API do Gemini.
 
 ### Passo 4: Carga e Inspeção da Base
-Execute a célula de leitura de dados para instanciar o DataFrame `df` e inspecionar os primeiros registros:
+Execute a célula de leitura de dados (com *Self-Healing* integrado) para instanciar o DataFrame `df` e inspecionar os primeiros registros:
 ```python
 df = pd.read_excel('Lab 05 - EvasaoClientesClassificados.xlsx')
 ```
 * Observe que a coluna `Perdido?` representa a evasão histórica dos clientes.
 
 ### Passo 5: Treinamento Automatizado do Pipeline de AutoML
-Execute a função `executar_automl_nativo()` passando a pergunta estratégica de negócio:
+Execute a função `executar_automl_nativo()` (ou o alias em inglês `run_native_automl()`) passando a pergunta estratégica de negócio:
 ```python
 executar_automl_nativo("Identifique as 3 variáveis que mais influenciam a saída do cliente e avalie a qualidade do modelo.")
 ```

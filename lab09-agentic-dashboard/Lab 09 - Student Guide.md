@@ -26,22 +26,25 @@ Upon completing this laboratory, you will be able to:
 2. **Free Ngrok Account:** Account at [ngrok.com](https://ngrok.com) with *Authtoken* copied from the dashboard.
 3. **Google AI Studio API Key:** Generated at [aistudio.google.com](https://aistudio.google.com).
 4. **Demonstration Dataset:** `PesquisaClientes.csv` (auto-downloaded via the self-healing routine in the notebook).
-5. **Starter Notebook:** `Lab 09 - Dashboard de Analytics.ipynb`.
+5. **Starter Notebook:** [`Lab 09 - Colab Notebook.ipynb`](./Lab%2009%20-%20Colab%20Notebook.ipynb).
 
 ---
 
 ## 🚀 Guided Step-by-Step Walkthrough
 
-### Step 1: Install Front-End and Tunneling Dependencies
-Open the notebook in Google Colab and run the installation cell:
+### Step 1: Install Dependencies & Self-Healing Ingestion
+Open the notebook in Google Colab and run the installation and auto-download cell:
 
 ```python
-!pip install -q crewai streamlit pyngrok pandas tabulate
-print("✅ Web packages and tunneling libraries successfully installed!")
+!pip install crewai streamlit pyngrok pandas -q
+import urllib.request, os
+if not os.path.exists('PesquisaClientes.csv'):
+    urllib.request.urlretrieve('https://raw.githubusercontent.com/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/main/lab01-cx-analytics/Lab%2001%20-%20PesquisaClientes.csv', 'PesquisaClientes.csv')
+    print('✅ Demo dataset downloaded successfully! / Dataset de demonstração baixado com sucesso!')
 ```
 
 ### Step 2: Compile the Streamlit Web Application (`app.py`)
-Execute the cell compiling the front-end application to disk using `%%writefile`:
+Execute the cell compiling the front-end application to disk using `%%writefile` (including the sidebar language selector and automatic fallback to `PesquisaClientes.csv` when no file is uploaded):
 
 ```python
 %%writefile app.py
@@ -51,84 +54,89 @@ import os
 from crewai import Agent, Task, Crew, Process
 
 # 1. Page Configuration & Executive Branding
-st.set_page_config(page_title="BI Agentic Dashboard", layout="wide", page_icon="🤖")
+st.set_page_config(page_title="BI Agentic Dashboard", layout="wide")
 
 st.title("🤖 Agentic Analytics Dashboard")
-st.subheader("Insight-as-a-Service: Converting Data into Decisions with AI")
+st.subheader("Transforming Telemetry into Executive Decisions with AI Squads")
 
 # 2. Control Sidebar
 with st.sidebar:
-    st.header("⚙️ Session Settings")
-    api_key = st.text_input("Enter your Gemini API Key:", type="password")
-    model_choice = st.selectbox("Select Model:", ["gemini/gemini-3.8-flash"])
+    st.header("⚙️ Control Panel / Configurações")
+    api_key = st.text_input("🔑 Gemini API Key:", type="password")
+    model_choice = st.selectbox("🧠 Model / Modelo:", ["gemini/gemini-3.8-flash"])
+    output_lang = st.selectbox("🌐 Output Language / Idioma:", ["Portuguese (Brazil)", "English"])
     st.divider()
-    st.caption("MBA in Business Intelligence & Analytics — FIAP")
+    st.info("MBA in BI & Analytics - FIAP")
 
-# 3. Data Ingestion & Execution Trigger
-uploaded_file = st.file_uploader("Upload business dataset (CSV):", type="csv")
+# 3. Data Ingestion (Upload or Self-Healing Default)
+uploaded_file = st.file_uploader("📂 Upload CSV dataset (or leave empty to use default PesquisaClientes.csv):", type="csv")
+data_source = uploaded_file if uploaded_file is not None else ('PesquisaClientes.csv' if os.path.exists('PesquisaClientes.csv') else None)
 
-if uploaded_file and api_key:
-    df = pd.read_csv(uploaded_file)
-    st.dataframe(df.head(10), use_container_width=True)
+if data_source and api_key:
+    df = pd.read_csv(data_source)
+    if uploaded_file is None:
+        st.caption("ℹ️ Using pre-loaded Colab dataset: `PesquisaClientes.csv` / Usando base padrão do Colab.")
     
-    if st.button("🚀 Trigger AI Agent Analysis"):
+    col1, col2, col3 = st.columns(3)
+    col1.metric("📊 Total Records / Registros", len(df))
+    col2.metric("📋 Total Columns / Colunas", len(df.columns))
+    col3.metric("🔢 Numeric Columns / Numéricas", len(df.select_dtypes(include='number').columns))
+    
+    st.write("### 🔍 Telemetry Sample / Amostra dos Dados Carregados", df.head(5))
+    
+    if st.button("🚀 Launch Agent Squad / Disparar Squad de Agentes"):
         os.environ["GEMINI_API_KEY"] = api_key
         os.environ["GOOGLE_API_KEY"] = api_key
         
-        with st.spinner("🧠 AI Agent analyzing strategic patterns... Please wait."):
+        with st.spinner("🤖 Agents analyzing telemetry... / Agentes analisando dados... Aguarde."):
             analyst = Agent(
-                role="Strategic Business Analyst",
-                goal="Uncover high-impact revenue and customer satisfaction insights",
-                backstory="Senior management consultant specialized in converting data tables into executive action roadmaps.",
+                role='Senior Strategic Data Analyst',
+                goal=f'Identify critical business patterns in the provided telemetry (respond in {output_lang})',
+                backstory='Expert in statistical modeling, customer behavior, and executive boardroom synthesis.',
                 llm=model_choice
             )
             
             task = Task(
-                description=f"Analyze the following dataset sample and generate an executive strategic report:\n\n{df.head(20).to_markdown()}",
-                expected_output="An executive briefing in Markdown detailing key anomalies, revenue levers, and 3 actionable recommendations.",
+                description=f'Analyze the variables {df.columns.tolist()} in the following sample and synthesize an executive brief in {output_lang}: {df.head(10).to_markdown()}',
+                expected_output=f'A Markdown executive report in {output_lang} containing 3 actionable strategic insights.',
                 agent=analyst
             )
             
             crew = Crew(agents=[analyst], tasks=[task], process=Process.sequential)
-            resultado = crew.kickoff()
-            
-            st.session_state["relatorio_analise"] = str(resultado)
-            st.success("✅ Strategic Analysis Successfully Generated!")
+            raw_result = crew.kickoff()
+            st.session_state["relatorio_analise"] = str(raw_result)
 
-# 4. Executive Report Display
-if "relatorio_analise" in st.session_state:
-    st.divider()
-    st.markdown(st.session_state["relatorio_analise"])
-    
-    st.download_button(
-        label="📥 Download Executive Report (.md)",
-        data=st.session_state["relatorio_analise"],
-        file_name="executive_bi_dossier.md",
-        mime="text/markdown"
-    )
+    if "relatorio_analise" in st.session_state:
+        st.success("✅ Analysis Completed! / Análise Concluída!")
+        st.markdown("--- ")
+        st.markdown(st.session_state["relatorio_analise"])
+        
+        st.download_button(
+            label="📥 Download Executive Dossier (.md) / Baixar Dossiê Executivo",
+            data=st.session_state["relatorio_analise"],
+            file_name="dossie_executivo_bi.md",
+            mime="text/markdown"
+        )
 
 elif not api_key:
-    st.info("👉 Enter your Google AI Studio API Key in the sidebar to enable analytics.")
+    st.warning("⚠️ Please enter your Gemini API Key in the sidebar to begin. / Insira sua API Key no menu lateral para começar.")
 ```
 
 ### Step 3: Activate Ngrok Tunnel & Start Streamlit Server
 Configure your personal authtoken and launch the service:
 
 ```python
-from pyngrok import ngrok
-import subprocess
-import time
-
 NGROK_TOKEN = "PASTE_YOUR_NGROK_TOKEN_HERE"
-ngrok.set_auth_token(NGROK_TOKEN)
 
-# Launch Streamlit server in the background on port 8501
-processo = subprocess.Popen(["streamlit", "run", "app.py", "--server.port", "8501", "--server.headless", "true"])
-time.sleep(3)
+from pyngrok import ngrok
+import os
 
-# Open secure tunnel forwarding port 8501
-public_url = ngrok.connect(8501)
-print(f"🚀 Dashboard publicly reachable at: {public_url}")
+if NGROK_TOKEN:
+    ngrok.kill()
+    ngrok.set_auth_token(NGROK_TOKEN)
+    public_url = ngrok.connect(8501).public_url
+    print(f"🔗 LIVE DASHBOARD URL / DASHBOARD ATIVO EM: {public_url}")
+    !streamlit run app.py --server.port 8501
 ```
 
 ### Step 4: Operating the Web Dashboard

@@ -24,24 +24,27 @@ Ao concluir este laboratório, você será capaz de:
 1. **Google Colab:** Sessão ativa em [colab.new](https://colab.new).
 2. **Conta Gratuita Ngrok:** Cadastro em [ngrok.com](https://ngrok.com) com *Authtoken* copiado do painel.
 3. **API Key do Google AI Studio:** Chave gerada em [aistudio.google.com](https://aistudio.google.com).
-4. **Dataset de Demonstração:** Arquivo `PesquisaClientes.csv` (ou base tabular similar).
-5. **Notebook do Laboratório:** Arquivo `Lab 09 - Dashboard de Analytics.ipynb`.
+4. **Dataset de Demonstração:** Arquivo `PesquisaClientes.csv` (com auto-download *Self-Healing* integrado no notebook).
+5. **Notebook do Laboratório:** Arquivo [`Lab 09 - Colab Notebook.ipynb`](./Lab%2009%20-%20Colab%20Notebook.ipynb).
 
 ---
 
 ## 🚀 Passo a Passo Guiado
 
-### Passo 1: Instalação das Dependências de Front-End e Túnel
-Abra o notebook no Google Colab e execute a célula de instalação dos pacotes necessários:
+### Passo 1: Instalação das Dependências e Carga Self-Healing
+Abra o notebook no Google Colab e execute a Célula 1 de instalação dos pacotes e download automático do dataset:
 
 ```python
-!pip install -q crewai streamlit pyngrok pandas tabulate
-print("✅ Bibliotecas instaladas com sucesso!")
+!pip install crewai streamlit pyngrok pandas -q
+import urllib.request, os
+if not os.path.exists('PesquisaClientes.csv'):
+    urllib.request.urlretrieve('https://raw.githubusercontent.com/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/main/lab01-cx-analytics/Lab%2001%20-%20PesquisaClientes.csv', 'PesquisaClientes.csv')
+    print('✅ Demo dataset downloaded successfully! / Dataset de demonstração baixado com sucesso!')
 ```
-* **O que acontece:** O ambiente prepara o servidor web do Streamlit, os componentes de agentes e o cliente do Ngrok.
+* **O que acontece:** O ambiente prepara o servidor web do Streamlit, os componentes de agentes, o cliente do Ngrok e garante que `PesquisaClientes.csv` esteja disponível na VM do Colab.
 
 ### Passo 2: Geração do Aplicativo Web (`app.py`)
-Execute a célula que compila o código do front-end diretamente no disco do Colab usando a diretiva `%%writefile`:
+Execute a célula que compila o código do front-end diretamente no disco do Colab usando a diretiva `%%writefile` (com seletor de idioma e fallback automático para `PesquisaClientes.csv` caso nenhum arquivo externo seja enviado):
 
 ```python
 %%writefile app.py
@@ -51,49 +54,53 @@ import os
 from crewai import Agent, Task, Crew, Process
 
 # 1. Configuração da Página e Títulos Executivos
-st.set_page_config(page_title="BI Agentic Dashboard", layout="wide", page_icon="🤖")
+st.set_page_config(page_title="BI Agentic Dashboard", layout="wide")
 
 st.title("🤖 Agentic Analytics Dashboard")
-st.subheader("Insight-as-a-Service: Transformando Dados em Decisões com IA")
+st.subheader("Transforming Telemetry into Executive Decisions with AI Squads")
 
 # 2. Painel Lateral de Controle (Sidebar)
 with st.sidebar:
-    st.header("⚙️ Configurações da Sessão")
-    api_key = st.text_input("Insira sua Gemini API Key:", type="password")
-    model_choice = st.selectbox("Selecione o Modelo:", ["gemini/gemini-3.8-flash"])
+    st.header("⚙️ Control Panel / Configurações")
+    api_key = st.text_input("🔑 Gemini API Key:", type="password")
+    model_choice = st.selectbox("🧠 Model / Modelo:", ["gemini/gemini-3.8-flash"])
+    output_lang = st.selectbox("🌐 Output Language / Idioma:", ["Portuguese (Brazil)", "English"])
     st.divider()
-    st.caption("MBA em Business Intelligence & Analytics — FIAP")
+    st.info("MBA in BI & Analytics - FIAP")
 
-# 3. Ingestão de Dados e Disparo do Agente
-uploaded_file = st.file_uploader("Faça o upload do seu dataset de negócio (CSV):", type="csv")
+# 3. Ingestão de Dados (Upload ou Fallback Automático Self-Healing)
+uploaded_file = st.file_uploader("📂 Upload CSV dataset (or leave empty to use default PesquisaClientes.csv):", type="csv")
+data_source = uploaded_file if uploaded_file is not None else ('PesquisaClientes.csv' if os.path.exists('PesquisaClientes.csv') else None)
 
-if uploaded_file and api_key:
-    df = pd.read_csv(uploaded_file)
+if data_source and api_key:
+    df = pd.read_csv(data_source)
+    if uploaded_file is None:
+        st.caption("ℹ️ Using pre-loaded Colab dataset: `PesquisaClientes.csv` / Usando base padrão do Colab.")
     
     # Cards Executivos de BI
     col1, col2, col3 = st.columns(3)
-    col1.metric("📊 Total de Registros", len(df))
-    col2.metric("📋 Total de Colunas", len(df.columns))
-    col3.metric("🔢 Colunas Numéricas", len(df.select_dtypes(include='number').columns))
+    col1.metric("📊 Total Records / Registros", len(df))
+    col2.metric("📋 Total Columns / Colunas", len(df.columns))
+    col3.metric("🔢 Numeric Columns / Numéricas", len(df.select_dtypes(include='number').columns))
     
-    st.write("### 🔍 Amostra dos Dados Carregados", df.head(5))
+    st.write("### 🔍 Telemetry Sample / Amostra dos Dados Carregados", df.head(5))
     
     # Disparo com persistência em session_state
-    if st.button("🚀 Disparar Análise com Agente de IA"):
+    if st.button("🚀 Launch Agent Squad / Disparar Squad de Agentes"):
         os.environ["GEMINI_API_KEY"] = api_key
         os.environ["GOOGLE_API_KEY"] = api_key
         
-        with st.spinner("🤖 Agente analista processando métricas e elaborando recomendações..."):
+        with st.spinner("🤖 Agents analyzing telemetry... / Agentes analisando dados... Aguarde."):
             analyst = Agent(
-                role='Analista Sênior de Estratégia de BI',
-                goal='Identificar anomalias e gerar 3 recomendações de alto impacto',
-                backstory='Consultor sênior de BI focado em ROI e melhoria operacional.',
+                role='Senior Strategic Data Analyst',
+                goal=f'Identify critical business patterns in the provided telemetry (respond in {output_lang})',
+                backstory='Expert in statistical modeling, customer behavior, and executive boardroom synthesis.',
                 llm=model_choice
             )
             
             task = Task(
-                description=f'Analise as variáveis {df.columns.tolist()} na amostra a seguir e apresente um sumário executivo estruturado: {df.head(10).to_markdown()}',
-                expected_output='Dossiê executivo em Markdown com: 1. Diagnóstico Principal, 2. Métrica Crítica, 3. Recomendações Táticas.',
+                description=f'Analyze the variables {df.columns.tolist()} in the following sample and synthesize an executive brief in {output_lang}: {df.head(10).to_markdown()}',
+                expected_output=f'A Markdown executive report in {output_lang} containing 3 actionable strategic insights.',
                 agent=analyst
             )
             
@@ -103,40 +110,36 @@ if uploaded_file and api_key:
 
     # Exibição persistente e exportação
     if "relatorio_analise" in st.session_state:
-        st.success("✅ Diagnóstico Concluído com Sucesso!")
-        st.markdown("---")
+        st.success("✅ Analysis Completed! / Análise Concluída!")
+        st.markdown("--- ")
         st.markdown(st.session_state["relatorio_analise"])
         
         st.download_button(
-            label="📥 Baixar Dossiê Executivo (.md)",
+            label="📥 Download Executive Dossier (.md) / Baixar Dossiê Executivo",
             data=st.session_state["relatorio_analise"],
             file_name="dossie_executivo_bi.md",
             mime="text/markdown"
         )
 
 elif not api_key:
-    st.info("👉 Insira sua API Key do Google AI Studio na barra lateral para habilitar os recursos analíticos.")
+    st.warning("⚠️ Please enter your Gemini API Key in the sidebar to begin. / Insira sua API Key no menu lateral para começar.")
 ```
 
 ### Passo 3: Ativação do Túnel Ngrok e Inicialização do Servidor
 Na célula seguinte, configure seu authtoken pessoal e inicie o serviço:
 
 ```python
-from pyngrok import ngrok
-import subprocess
-import time
-
-# Insira o authtoken copiado do painel do Ngrok
 NGROK_TOKEN = "COLE_SEU_NGROK_TOKEN_AQUI"
-ngrok.set_auth_token(NGROK_TOKEN)
 
-# Inicia o servidor Streamlit em segundo plano na porta 8501
-processo = subprocess.Popen(["streamlit", "run", "app.py", "--server.port", "8501", "--server.headless", "true"])
-time.sleep(3)
+from pyngrok import ngrok
+import os
 
-# Abre o túnel público apontando para a porta 8501
-public_url = ngrok.connect(8501)
-print(f"🚀 Dashboard disponível publicamente em: {public_url}")
+if NGROK_TOKEN:
+    ngrok.kill()
+    ngrok.set_auth_token(NGROK_TOKEN)
+    public_url = ngrok.connect(8501).public_url
+    print(f"🔗 LIVE DASHBOARD URL / DASHBOARD ATIVO EM: {public_url}")
+    !streamlit run app.py --server.port 8501
 ```
 
 ### Passo 4: Operando o Dashboard no Navegador

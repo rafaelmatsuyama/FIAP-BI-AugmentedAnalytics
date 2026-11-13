@@ -17,15 +17,12 @@
 
 Enterprise business intelligence stands at an inflection point. For the past two decades, organizations invested billions into descriptive data warehousing and visual analytics suites. However, modern corporate leadership is now reckoning with the **Reactive Dashboard Obsolescence Paradox**:
 
-```
-Traditional Descriptive BI (Lagging)             Augmented Cognitive Decisioning (Leading)
-┌──────────────────────────────────────┐         ┌──────────────────────────────────────────────┐
-│  • Siloed SQL & Static KPI Cards     │         │  • Dynamic In-Context Semantic Grounding     │
-│  • Human Cognitive Overload          │  ───►   │  • Autonomous Auto-EDA & Anomaly Mining      │
-│  • Post-Mortem Diagnostic Latency    │         │  • Multi-Agent Chain-of-Thought Deliberation │
-│  • Zero Prescriptive Action Capacity │         │  • Contract-Driven Enactment (JSON / APIs)   │
-└──────────────────────────────────────┘         └──────────────────────────────────────────────┘
-```
+| 📉 Traditional Descriptive BI *(Lagging)* | 🚀 Augmented Cognitive Decisioning *(Leading)* |
+| :--- | :--- |
+| • **Siloed SQL & Static KPI Cards:** Rigid pre-aggregated views detached from unstructured operational context. | • **Dynamic In-Context Semantic Grounding:** Direct multimodal ingestion bypassing brittle NL2SQL pipelines. |
+| • **Human Cognitive Overload:** Analysts manually slicing cross-tabs to isolate root causes. | • **Autonomous Auto-EDA & Anomaly Mining:** Code-generating agents executing white-box statistical profiling. |
+| • **Post-Mortem Diagnostic Latency:** Weeks of BI backlog to explain *what happened* last quarter. | • **Multi-Agent Chain-of-Thought Deliberation:** Specialized AI squads debating strategy, risk, and ROI in real time. |
+| • **Zero Prescriptive Action Capacity:** Dashboards end at visual inspection without operational execution. | • **Contract-Driven Enactment (JSON / APIs):** Deterministic schemas triggering downstream workflows and cockpits. |
 
 Static dashboards have become visual graveyards of historical telemetry. Business stakeholders are burdened with manually filtering cross-tabular views to answer *what happened*, while the critical executive questions—*why did it happen*, *what will happen next*, and *which operational levers should be pulled immediately*—remain unanswered.
 
@@ -59,7 +56,7 @@ This repository serves as the official enterprise reference blueprint and labora
 
 ## 🧪 Modular Hands-on Lab Suite
 
-The repository is organized into 10 self-contained, progressive hands-on laboratories. Each module features synchronized bilingual documentation ([`Lab XX - Roteiro Aluno.md`](./) in Portuguese and [`Lab XX - Student Guide.md`](./) in English), production datasets, and interactive execution environments:
+The repository is organized into 10 self-contained, progressive hands-on laboratories. Each module features synchronized bilingual documentation (`Lab XX - Roteiro Aluno.md` in Portuguese and `Lab XX - Student Guide.md` in English), production datasets, and interactive execution environments:
 
 | Module | Guides / Roteiros | Enterprise Challenge / Business Problem | Technical Solution & Modern Stack | Technical Tags | Key Deliverable & Launch |
 | :---: | :--- | :--- | :--- | :--- | :---: |
@@ -71,8 +68,8 @@ The repository is organized into 10 self-contained, progressive hands-on laborat
 | [`lab06`](./lab06-dify-workflow/) | [🇧🇷 PT-BR](./lab06-dify-workflow/Lab%2006%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab06-dify-workflow/Lab%2006%20-%20Student%20Guide.md) | **Low-Code Enterprise Orchestration:** Constructing resilient multi-step analytical pipelines with human-in-the-loop validation checkpoints. | Dify.ai Enterprise • Visual Flow Orchestration • DAG Pipelines | `dify-ai`, `visual-orchestration`, `multi-agent-dag`, `low-code` | Production-Grade Visual Analytical Pipeline |
 | [`lab07`](./lab07-crewai-squad/) | [🇧🇷 PT-BR](./lab07-crewai-squad/Lab%2007%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab07-crewai-squad/Lab%2007%20-%20Student%20Guide.md) | **Autonomous Operation Churn Zero:** Multi-agent autonomous squad orchestrating retention campaigns, discount modeling, and outreach drafting. | CrewAI • LiteLLM • Role-Based Multi-Agent Collaboration | `crewai`, `multi-agent-squad`, `chain-of-thought`, `churn-mitigation` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab07-crewai-squad/Lab%2007%20-%20Colab%20Notebook.ipynb) |
 | [`lab08`](./lab08-json-schema/) | [🇧🇷 PT-BR](./lab08-json-schema/Lab%2008%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab08-json-schema/Lab%2008%20-%20Student%20Guide.md) | **Deterministic Output Contracts:** Forcing LLMs to comply with strict, production-ready JSON schemas for microservice integration. | Google AI Studio • Constrained Decoding • JSON Schema & Enums | `json-schema`, `structured-outputs`, `enums`, `data-contracts` | Validated Pydantic/JSON Microservice Interface Spec |
-| [`lab09`](./lab09-agentic-dashboard/) | [🇧🇷 PT-BR](./lab09-agentic-dashboard/Lab%2009%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab09-agentic-dashboard/Lab%2009%20-%20Student%20Guide.md) | **Reactive Executive Cockpit:** Building interactive, agent-driven analytical applications that generate insights dynamically on user input. | Streamlit • PyNgrok • Gemini Flash • Plotly Dynamic Charts | `streamlit`, `agentic-ui`, `ngrok-tunneling`, `session-state` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab09-agentic-dashboard/Lab%2009%20-%20Dashboard%20de%20Analytics.ipynb) |
-| [`lab10`](./lab10-integracao-final/) | [🇧🇷 PT-BR](./lab10-integracao-final/Lab%2010%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab10-integracao-final/Lab%2010%20-%20Student%20Guide.md) | **End-to-End Enterprise Solution Capstone:** Unifying ingestion, predictive modeling, multi-agent evaluation, and a reactive executive frontend. | Full Stack: Streamlit • Scikit-Learn • CrewAI • JSON Schema | `capstone`, `insight-as-a-service`, `regex-parsing`, `full-stack-bi` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab10-integracao-final/Lab%2010%20-%20Integração%20Final%20e%20Dashboard%20Estruturado.ipynb) |
+| [`lab09`](./lab09-agentic-dashboard/) | [🇧🇷 PT-BR](./lab09-agentic-dashboard/Lab%2009%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab09-agentic-dashboard/Lab%2009%20-%20Student%20Guide.md) | **Reactive Executive Cockpit:** Building interactive, agent-driven analytical applications that generate insights dynamically on user input. | Streamlit • PyNgrok • Gemini Flash • Plotly Dynamic Charts | `streamlit`, `agentic-ui`, `ngrok-tunneling`, `session-state` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab09-agentic-dashboard/Lab%2009%20-%20Colab%20Notebook.ipynb) |
+| [`lab10`](./lab10-capstone-integration/) | [🇧🇷 PT-BR](./lab10-capstone-integration/Lab%2010%20-%20Roteiro%20Aluno.md) \| [🇺🇸 EN](./lab10-capstone-integration/Lab%2010%20-%20Student%20Guide.md) | **End-to-End Enterprise Solution Capstone:** Unifying ingestion, predictive modeling, multi-agent evaluation, and a reactive executive frontend. | Full Stack: Streamlit • Scikit-Learn • CrewAI • JSON Schema | `capstone`, `insight-as-a-service`, `regex-parsing`, `full-stack-bi` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rafaelmatsuyama/FIAP-BI-AugmentedAnalytics/blob/main/lab10-capstone-integration/Lab%2010%20-%20Colab%20Notebook.ipynb) |
 
 ---
 

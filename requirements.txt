@@ -9,11 +9,13 @@ pandas>=2.0.0
 numpy>=1.24.0
 scikit-learn>=1.4.0
 openpyxl>=3.1.0
+matplotlib>=3.8.0
 seaborn>=0.13.0
 tabulate>=0.9.0
 
 # Multi-Agent Orchestration & Squads
 crewai>=0.80.0
+litellm>=1.50.0
 
 # Reactive Front-End & Visualization Cockpits
 streamlit>=1.35.0

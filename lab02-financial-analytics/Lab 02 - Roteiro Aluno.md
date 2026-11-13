@@ -44,14 +44,15 @@ Ao final deste laboratório, você será capaz de:
 3. Na busca do GitHub, informe o repositório da disciplina: `rafaelmatsuyama/FIAP-BI-AugmentedAnalytics`.
 4. Selecione o arquivo: `lab02-financial-analytics/Lab 02 - Colab Notebook.ipynb`.
 
-### Passo 3: Carga do Dataset
-1. Na barra lateral esquerda do Colab, clique no ícone de pasta (**Arquivos**).
-2. Faça o upload do arquivo [`Lab 02 - 50_Startups.csv`](./Lab%2002%20-%2050_Startups.csv) para a raiz da sessão `/content/`.
+### Passo 3: Carga do Dataset (Self-Healing Runtime)
+* O notebook conta com uma rotina de **auto-download resiliente (*Self-Healing*)**: caso o arquivo `Lab 02 - 50_Startups.csv` não esteja presente em `/content/`, ele é baixado automaticamente da branch oficial do GitHub.
+* Alternativamente, você pode fazer o upload manual de [`Lab 02 - 50_Startups.csv`](./Lab%2002%20-%2050_Startups.csv) no ícone de pasta (**Arquivos**) do Colab.
 
-### Passo 4: Configuração da Credencial e Bibliotecas
-Na Célula 1 do notebook, insira sua API Key obtida no Passo 1:
+### Passo 4: Configuração da Credencial, Idioma e Bibliotecas
+Na Célula 1 de código do notebook, insira sua API Key obtida no Passo 1 e confirme o idioma de saída:
 ```python
-API_KEY = 'SUA_CHAVE_AQUI'
+API_KEY = 'COLE_SUA_API_KEY_AQUI'
+OUTPUT_LANGUAGE = 'Portuguese (Brazil)' # @param ['Portuguese (Brazil)', 'English']
 client = genai.Client(api_key=API_KEY)
 ```
 Execute a célula para instalar as dependências (`google-genai`, `tabulate`) e autenticar a sessão do cliente GenAI.

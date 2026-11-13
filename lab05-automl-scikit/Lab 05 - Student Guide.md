@@ -42,13 +42,14 @@ Upon completing this laboratory, you will be able to:
 * The updated notebook includes a **self-healing download routine**: if `Lab 05 - EvasaoClientesClassificados.xlsx` is not found locally, it retrieves it automatically from the official GitHub branch.
 * Execute the package installation cell (`google-genai openpyxl tabulate`).
 
-### Step 3: Configure Authentication Credentials
-In the setup cell, provide your Google AI Studio API key:
+### Step 3: Configure Authentication Credentials & Output Language
+In the setup cell, provide your Google AI Studio API key and set `OUTPUT_LANGUAGE = 'English'`:
 ```python
 from google import genai
 from google.genai import types
 
-API_KEY = 'YOUR_API_KEY_HERE'
+API_KEY = 'COLE_SUA_API_KEY_AQUI'
+OUTPUT_LANGUAGE = 'English' # @param ['Portuguese (Brazil)', 'English']
 client = genai.Client(api_key=API_KEY)
 ```
 
@@ -59,9 +60,9 @@ df = pd.read_excel('Lab 05 - EvasaoClientesClassificados.xlsx')
 ```
 
 ### Step 5: Autonomous White-Box AutoML Execution
-Invoke `executar_automl_nativo()` with the strategic business question:
+Invoke `run_native_automl()` (or `executar_automl_nativo()`) with the strategic business question:
 ```python
-executar_automl_nativo("Identify the top 3 features driving customer attrition and evaluate overall model precision.")
+run_native_automl("Identify the top 3 features driving customer attrition and evaluate overall model precision.")
 ```
 * **Mechanics:** **Gemini 3.8 Flash** ingests the schema and sample records, synthesizes a complete Scikit-Learn script (drops identifiers, encodes categoricals with `LabelEncoder`, splits 80/20, trains `RandomForestClassifier`), executes the code in memory, and outputs Accuracy, Classification Reports, and visual charts.
 

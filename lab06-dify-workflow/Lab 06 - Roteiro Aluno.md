@@ -25,7 +25,7 @@ Ao final deste laboratório, você será capaz de:
 * Acesso ao [Dify.ai Cloud](https://dify.ai/) (cadastro gratuito com conta Google ou GitHub).
 * Chave de autenticação ativa gerada no [Google AI Studio](https://aistudio.google.com/apikey).
 * Navegador Web moderno (Google Chrome, Microsoft Edge ou Firefox).
-* Arquivo DSL de referência (opcional): [`Sinalizador_Concorrencia_MBA.yml`](file:///C:/Dropbox/PC/Documents/GitHub/FIAP-BI-AugmentedAnalytics/lab06-dify-workflow/Sinalizador_Concorrencia_MBA.yml) (disponível nesta pasta para importação direta de conferência).
+* Arquivo DSL de referência (opcional): [`Sinalizador_Concorrencia_MBA.yml`](./Sinalizador_Concorrencia_MBA.yml) (disponível nesta pasta para importação direta de conferência).
 * Não é necessária instalação de Python local ou execução de terminal (ambiente 100% gerenciado em nuvem).
 
 ---
